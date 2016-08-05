@@ -1,0 +1,387 @@
+<html>
+	<head>
+		<title>SALT Feature Interface</title>
+		<link href="PROTO2.css" type="text/css" rel="stylesheet">
+	</head>
+	
+	<body>
+		<div id="displayWrapper">
+			
+			<div id="listWrapper">
+				
+				<div id="leftWrapper">
+					<div id="leftFeatures" class="features">
+						<div id="leftFeaturesHeading"class= "headingsTop">
+							<h1>Feature: Key Detector</h1>
+						</div>
+					<div id="featureGraphOne">
+						<script src="http://d3js.org/d3.v3.min.js"></script>
+						<script type="text/javascript">
+								var data = [
+								{
+									"Letter": "B",
+									"Freq": 83	
+								},
+								{
+									"Letter" : "A#",
+									"Freq": 12
+								},
+								{
+									"Letter" : "A",
+									"Freq": 47
+								},
+								{
+									"Letter" : "G#",
+									"Freq": 18
+								},
+								{
+									"Letter" : "G",
+									"Freq" : 54
+								},
+								{
+									"Letter" : "F#",
+									"Freq" : 104
+								},
+								{
+									"Letter" : "F",
+									"Freq" : 22
+								},
+								{
+									"Letter" : "E",
+									"Freq" : 44
+								},
+								{
+									"Letter" : "D#",
+									"Freq" : 17
+								},
+								{
+									"Letter" : "D",
+									"Freq" : 14
+								},
+								{
+									"Letter" : "C#",
+									"Freq" : 23
+								},
+								{
+									"Letter" : "C",
+									"Freq" : 49
+								}
+								];
+
+						// set the dimensions of the canvas
+						var margin = {top: 10, right: 20, bottom: 90, left: 30},
+						    width = 330 - margin.left - margin.right,
+						    height = 380 - margin.top - margin.bottom;
+
+						// set the ranges
+						var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+						var y = d3.scale.linear().range([height, 0]);
+						
+						// define the axis
+						var xAxis = d3.svg.axis()
+						    .scale(x)
+						    .orient("bottom")
+
+
+						var yAxis = d3.svg.axis()
+						    .scale(y)
+						    .orient("left")
+						    .ticks(10);
+
+							// To get the Graph moved to the feature box, I had to give the graph an 				id (featureGraphOne) Then I had to point to it the var svg--> var svg = d3.select("#featureGraphOne").append("svg")
+							
+						// add the SVG element
+						var svg = d3.select("#featureGraphOne").append("svg")
+						    .attr("width", width + margin.left + margin.right)
+						    .attr("height", height + margin.top + margin.bottom)
+						  .append("g")
+						    .attr("transform", 
+						          "translate(" + margin.left + "," + margin.top + ")");
+					
+						// load the data
+						 //d3.json(featureData, function(error, data) {
+
+						    data.forEach(function(d) {
+						        d.Letter = d.Letter;
+						        d.Freq = +d.Freq;
+						    });
+
+						  // scale the range of the data
+						  x.domain(data.map(function(d) { return d.Letter; }));
+						  y.domain([0, d3.max(data, function(d) { return d.Freq; })]);
+
+						  // add axis
+						  svg.append("g")
+						      .attr("class", "x axis")
+						      .attr("transform", "translate(0," + height + ")")
+						      .call(xAxis)
+						    .selectAll("text")
+						      .style("text-anchor", "end")
+						      .attr("dx", "-.8em")
+						      .attr("dy", "-.55em")
+						      .attr("transform", "rotate(-90)" );
+
+						  svg.append("g")
+						      .attr("class", "y axis")
+						      .call(yAxis)
+						    .append("text")
+						      .attr("transform", "rotate(-90)")
+						      .attr("y", 5)
+						      .attr("dy", ".71em")
+						      .style("text-anchor", "end")
+						      .text("Duration");
+
+
+						  // Add bar chart
+
+
+						  svg.selectAll("bar")
+						      .data(data)
+						    .enter().append("rect")
+						      .attr("class", "bar")
+						      .attr("x", function(d) { return x(d.Letter); })
+						      .attr("width", x.rangeBand())
+						      .attr("y", function(d) { return y(d.Freq); })
+						      .attr("height", function(d) { return height - y(d.Freq); });
+							
+						//});
+
+						</script></div>
+						
+				
+					
+					</div>
+					
+					<div id="left" class="list">
+						<div id="leftHeading"class= "headingsTop">
+							<h1>Database A: SONGS</h1></div>
+							<div id="leftContent"class="content">	
+							<p> Song 1</p>
+							<p> Song 2</p>
+							<p><strong>The Dock of the Hay</strong></p>
+							<p> Song 4</p>
+							<p> Song 5</p>
+							<p> Song 6</p>
+							<p> Song 7</p>
+							<p> Song 8</p>
+							<p> Song 9</p>
+							<p> Song 10</p>
+							<p> Song 11</p>
+							<p> Song 12</p>
+							</div>
+						</div>	
+					
+				</div>
+				
+				<div id="rightWrapper">	
+					<div id="right" class="list">
+						<div id="rightHeading" class= "headingsTop"><h1>Database B: SONGS</h1>
+						</div>
+							<div id="rightContent" class="content">	
+								<p> Song 1</p>
+								<p> Song 2</p>
+								<strong><p>(Sittin' On) The Dock of the Bay</p></strong>
+								<p> Song 4</p>
+								<p> Song 5</p>
+								<p> Song 6</p>
+								<p> Song 7</p>
+								<p> Song 8</p>
+								<p> Song 9</p>
+								<p> Song 10</p>
+								<p> Song 11</p>
+								<p> Song 12</p>
+							</div>
+					</div>
+					
+					<div id="rightFeatures" class="features">
+						<div id="rightFeaturesHeading" class="headingsTop"><h1>
+							Feature: Key Detector</h1>
+							
+									<div id="featureGraphTwo">
+										<script src="http://d3js.org/d3.v3.min.js"></script>
+										<script type="text/javascript">
+										var data = [
+										{
+											"Letter": "B",
+											"Freq": 20	
+										},
+										{
+											"Letter" : "A#",
+											"Freq": 12
+										},
+										{
+											"Letter" : "A",
+											"Freq": 89
+										},
+										{
+											"Letter" : "G#",
+											"Freq": 34
+										},
+										{
+											"Letter" : "G",
+											"Freq" : 54
+										},
+										{
+											"Letter" : "F#",
+											"Freq" : 21
+										},
+										{
+											"Letter" : "F",
+											"Freq" : 98
+										},
+										{
+											"Letter" : "E",
+											"Freq" : 31
+										},
+										{
+											"Letter" : "D#",
+											"Freq" : 17
+										},
+										{
+											"Letter" : "D",
+											"Freq" : 75
+										},
+										{
+											"Letter" : "C#",
+											"Freq" : 23
+										},
+										{
+											"Letter" : "C",
+											"Freq" : 101
+										}
+										];
+
+										// set the dimensions of the canvas
+										var margin = {top: 10, right: 20, bottom: 90, left: 30},
+										   	width = 330 - margin.left - margin.right,
+									    	height = 380 - margin.top - margin.bottom;
+
+										// set the ranges
+										var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+										var y = d3.scale.linear().range([height, 0]);
+
+										// define the axis
+										var xAxis = d3.svg.axis()
+										    .scale(x)
+										    .orient("bottom")
+
+
+										var yAxis = d3.svg.axis()
+										    .scale(y)
+										    .orient("left")
+										    .ticks(10);
+
+
+										// add the SVG element
+										var svg = d3.select("#featureGraphTwo").append("svg")
+										    .attr("width", width + margin.left + margin.right)
+										    .attr("height", height + margin.top + margin.bottom)
+										  .append("g")
+										    .attr("transform", 
+										          "translate(" + margin.left + "," + margin.top + ")");
+
+										// load the data
+										 //d3.json(featureData, function(error, data) {
+
+										    data.forEach(function(d) {
+										        d.Letter = d.Letter;
+										        d.Freq = +d.Freq;
+										    });
+
+										  // scale the range of the data
+										  x.domain(data.map(function(d) { return d.Letter; }));
+										  y.domain([0, d3.max(data, function(d) { return d.Freq; })]);
+
+										  // add axis
+										  svg.append("g")
+										      .attr("class", "x axis")
+										      .attr("transform", "translate(0," + height + ")")
+										      .call(xAxis)
+										    .selectAll("text")
+										      .style("text-anchor", "end")
+										      .attr("dx", "-.8em")
+										      .attr("dy", "-.55em")
+										      .attr("transform", "rotate(-90)" );
+
+										  svg.append("g")
+										      .attr("class", "y axis")
+										      .call(yAxis)
+										    .append("text")
+										      .attr("transform", "rotate(-90)")
+										      .attr("y", 5)
+										      .attr("dy", ".71em")
+										      .style("text-anchor", "end")
+										      .text("Duration");
+
+
+										  // Add bar chart
+
+
+										  svg.selectAll("bar")
+										      .data(data)
+										    .enter().append("rect")
+										      .attr("class", "bar")
+										      .attr("x", function(d) { return x(d.Letter); })
+										      .attr("width", x.rangeBand())
+										      .attr("y", function(d) { return y(d.Freq); })
+										      .attr("height", function(d) { return height -y(d.Freq);});
+
+										//});
+
+										</script>
+										
+								</div>
+				</div>
+					
+			</div>	
+				
+			<div id="scoresWrapper" class="rightColumn">
+				<div id="scoresWrapperHeading"></div>
+				<p>10%</p>
+				<p>10%</p>
+				<p><strong>10%</strong></p>
+				<p>10%</p>
+				<p>10%</p>
+				<p>10%</p>
+				<p>10%</p>
+				<p>10%</p>
+				<p>15%</p>
+			</div>
+		
+			<div id="context">
+				<div id="contextLeft" class="context">
+					<div id="contextLeftHeading"class="headingsBottom"> 
+						<h3>The Dock of the Hay</h3></div>
+						<p>Context</p>
+						<p>Context</p>
+						<p>Context</p>
+				</div>
+					
+				<div id="contextCenter" class="context">
+						<div id="contextCenterHeading" class="headingsBottom"><h3>
+							(Sittin' On) The Dock of the Bay</h3>
+						</div>
+						<p>Context</p>
+						<p>Context</p>
+						<p>Context</p>
+				</div>
+				
+				<div id="contextRight" class="rightColumn">
+					<div id="contextRightHeading" class="headingsBottom"></div>
+					 <p>1<strong>0%</strong></p>
+				</div>
+			</div>		
+		</div>
+			
+			<!-- 
+		<div>
+			<div><button type="button" id="thumpsUp" class="thumbs">Thumps up</button></div>
+			<div><button type="button" id="thumpsDown" class="thumbs">
+				Thumps down</button></div>
+		</div>	
+		-->
+			
+	</body>
+</html>

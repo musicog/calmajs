@@ -1,0 +1,274 @@
+
+/*#displayWrapper {
+    font-family: sans-serif;
+    max-width: 3000px; I changed this up from 1000 and it still didn't work. Hmm.    
+    position: relative;
+*/
+
+
+.list {
+	display: inline-block;
+	float:left;
+	max-height: 400px;
+    min-height: 400px;	
+	width:315px;
+	
+
+}
+
+.features {
+	display: inline-block;
+   	float:left;
+   	max-height: 400px;
+    min-height: 400px;
+    width: 315px;
+	border: 1px solid black;
+	/*outline: thick;*/	
+}
+
+
+h1 {
+	  text-align: center;
+}
+
+.headingsTop {
+	
+	display: inline-block;
+   	float:left;
+	background:white;
+   	max-height: 75px;
+    min-height: 75px;
+    width: 315px;
+	border: 1px solid black;
+/*outline: thick;*/	
+	
+}
+
+#listWrapper {
+	position:relative;
+	
+}
+
+
+#leftFeatures {
+	background:antiquewhite;
+
+}
+
+#leftFeaturesHeading {
+
+	
+}
+
+/*THE INFO FOR THE BAR IS below*/	
+
+
+.bar{
+  fill: steelblue;
+}
+
+.bar:hover{
+  fill: brown;
+}
+
+	.axis {
+	  font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+	
+#featureGraphOne{
+	display: inline-block;
+   	float:left;
+}	
+
+
+	#featureGraphTwo{
+		display: inline-block;
+	   	float:left;
+	}
+
+/*THE INFO FOR THE BAR IS Above*/
+
+
+
+#left {
+	background:antiquewhite;
+	border: 1px solid black;
+	/*outline: thick;*/	
+}
+
+#leftHeading {
+
+}
+
+#right {
+	background:azure;
+	border: 1px solid black;
+	/*outline: thick;*/	
+}
+
+.content {
+	border: 1px solid black;
+	outline: thick;
+	max-height: 325px;
+    min-height: 325px;
+    width: 315px;
+	overflow-y: auto;
+	overflow-x:hidden;
+}
+
+#rightContent {
+	
+	background:azure;
+
+}
+
+#leftContent{
+	
+	background:antiquewhite;
+
+}
+
+
+#rightHeading{
+
+}
+
+#rightFeatures {
+	background:azure;
+  
+}
+
+#rightFeaturesHeading {
+	
+}
+
+#scoresWrapper {
+	background:beige;
+	display: inline-block;
+    max-height: 400px;
+    min-height: 400px;
+	border: 1px solid black;
+	/*outline: thick;*/	 		
+}
+
+#scoresWrapperHeading {
+	display:inline-block;
+   	float:left;
+	background:white;
+   	max-height: 75px;
+    min-height: 75px;
+    width: 150px;
+	border: 1px solid black;
+	/*outline: thick;*/	
+}
+
+.rightColumn {
+	float:left;
+	 width: 150px;
+}
+
+.context {
+	float:left;
+	max-height: 150px;
+    min-height: 150px;
+	width: 630px;
+	border: 1px solid black;
+/*outline: thick;*/	
+}
+
+h3 {
+	text-align: center;
+}
+
+#contextLeft {
+	
+	background:antiquewhite;
+	border: 1px solid black;
+/*outline: thick;*/	
+}
+
+.headingsBottom {
+	background:white;
+	float:left;
+	max-height: 50px;
+    min-height: 50px;
+	width: 630px;
+	border: 1px solid black;
+/*outline: thick;*/	
+}
+
+#contextLeftHeading {
+
+}
+
+#contextCenter {
+
+	background:azure;
+	border: 1px solid black;
+/*outline: thick;*/	
+}
+
+#contextCenterHeading {
+}
+
+
+#contextRight {
+
+	background:beige;
+    max-height: 150px;
+    min-height: 150px;
+	border: 1px solid black;
+/*outline: thick;*/	
+
+}
+
+#contextRightHeading {
+	background:white;
+	float:left;
+	max-height: 50px;
+    min-height: 50px;
+	width: 150px;
+	border: 1px solid black;
+/*outline: thick;*/	
+}
+
+
+
+
+
+
+
+/*
+#thumpsUp{
+	
+	background:white;
+	float:right;
+	max-height: 50px;
+    min-height: 50px;
+	width: 25px;
+	border: 1px solid black;
+	
+}
+
+#thumpsDown{
+	
+	background:white;
+	float:right;
+	max-height: 50px;
+    min-height: 50px;
+	width: 25px;
+	border: 1px solid black;
+	
+}
+*/
+
+
+
+/*	display: inline-block;*/

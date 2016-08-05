@@ -26,6 +26,35 @@ function renderFeatureData(doc) {
 	});
 	// for now, just print it to console
 	console.log(events)
+	// go through the featuresJsonLd list of objects BACKWARDS, doing subtractions to figure out durations
+	for(var i = events.length-1; i >=0; i=i-1) {
+		console.log("I am now looking at index number ", i);
+		console.log(events[i]);
+		
+		onsetTime = parseFloat(events[i]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))
+		var label = events[i]["http://www.w3.org/2000/01/rdf-schema#label"]
+		
+		// if I'm at the start of the loop (i.e. the last index in the list), I can't do any subtracting
+		// otherwise, 
+		//	take the onset time of the previous iteration of the loop (i.e. the NEXT item in the list), and subtract the CURRENT onset time from it
+		// 	then print it out to console using console.log, like above
+	//	events[i]
+	//	events[i+1]
+		
+	
+		
+		
+			
+			if (i < events.length-1) {
+				duration = parseFloat(events[i+1]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))  - onsetTime ;
+				console.log("I saw: ", label, " at time: ", onsetTime, " with duration ", duration);
+			}
+			
+			
+		
+			
+	}
+	
 }
 
 // JSON-LD EXTRACTION FUNCTIONS
@@ -188,4 +217,7 @@ function getFeatureForTrack(feature, track) {
 $(document).ready(function(){ 
 //	featuresJsonLd = getFeatureForTrack("http://vamp-plugins.org/rdf/plugins/vamp-libxtract#spectral_centroid", "http://eeboo.oerc.ox.ac.uk/calma_data/02/track_02017ae6-6037-4cc3-9cd1-7760f6f713b5/");
 	featuresJsonLd = getFeatureForTrack("http://vamp-plugins.org/rdf/plugins/qm-vamp-plugins#qm-keydetector", "http://eeboo.oerc.ox.ac.uk/calma_data/02/track_02017ae6-6037-4cc3-9cd1-7760f6f713b5/");
+
+	//var onsetTime = parseFloat($p[26]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))
+	
 })
