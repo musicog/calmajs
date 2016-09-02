@@ -10,9 +10,10 @@ function renderFeatureProvenance(doc) {
 
 function renderFeatureData(doc) { 
 	// create array of @id's 
-	doc = doc["@graph"]
-	events = []
-	keys = Object.keys(doc)
+	var doc = doc["@graph"]
+	var events = []
+	var keys = Object.keys(doc)
+	var perKeyDurations = {};
 	for (var k = 0; k < keys.length; k++) { 
 		events.push(doc[keys[k]]);
 	}
@@ -31,29 +32,107 @@ function renderFeatureData(doc) {
 		console.log("I am now looking at index number ", i);
 		console.log(events[i]);
 		
-		onsetTime = parseFloat(events[i]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))
+		var onsetTime = parseFloat(events[i]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))
 		var label = events[i]["http://www.w3.org/2000/01/rdf-schema#label"]
 		
-		// if I'm at the start of the loop (i.e. the last index in the list), I can't do any subtracting
-		// otherwise, 
-		//	take the onset time of the previous iteration of the loop (i.e. the NEXT item in the list), and subtract the CURRENT onset time from it
-		// 	then print it out to console using console.log, like above
-	//	events[i]
-	//	events[i+1]
-		
-	
-		
-		
-			
-			if (i < events.length-1) {
-				duration = parseFloat(events[i+1]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))  - onsetTime ;
-				console.log("I saw: ", label, " at time: ", onsetTime, " with duration ", duration);
+		if (i < events.length-1) {
+			console.log("I saw: ", label, " at time: ", onsetTime, " with duration ", duration);
+			var duration = parseFloat(events[i+1]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))  - onsetTime ;
+			if(label in perKeyDurations) { 
+				// seen this key before, so increment the pre-existing duration
+				perKeyDurations[label] += duration;
 			}
-			
-			
-		
+			else { 
+				// first time we see this key
+				perKeyDurations[label] = duration;
+			}
+
+		}
 			
 	}
+	console.log("Per-key durations: ", perKeyDurations);
+	keys = Object.keys(perKeyDurations);
+	var data = [];
+	for(var k = 0; k < keys.length; k++) { 
+		data.push({ "Letter": keys[k], "Freq": perKeyDurations[keys[k]] });
+	}
+						// set the dimensions of the canvas
+						var margin = {top: 10, right: 20, bottom: 90, left: 30},
+						    width = 330 - margin.left - margin.right,
+						    height = 380 - margin.top - margin.bottom;
+
+						// set the ranges
+						var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+						var y = d3.scale.linear().range([height, 0]);
+						
+						// define the axis
+						var xAxis = d3.svg.axis()
+						    .scale(x)
+						    .orient("bottom")
+
+
+						var yAxis = d3.svg.axis()
+						    .scale(y)
+						    .orient("left")
+						    .ticks(10);
+
+							// To get the Graph moved to the feature box, I had to give the graph an 				id (featureGraphOne) Then I had to point to it the var svg--> var svg = d3.select("#featureGraphOne").append("svg")
+							
+						// add the SVG element
+						var svg = d3.select("#featureGraphOne").append("svg")
+						    .attr("width", width + margin.left + margin.right)
+						    .attr("height", height + margin.top + margin.bottom)
+						  .append("g")
+						    .attr("transform", 
+						          "translate(" + margin.left + "," + margin.top + ")");
+					
+						// load the data
+						 //d3.json(featureData, function(error, data) {
+
+						    data.forEach(function(d) {
+						        d.Letter = d.Letter;
+						        d.Freq = +d.Freq;
+						    });
+
+						  // scale the range of the data
+						  x.domain(data.map(function(d) { return d.Letter; }));
+						  y.domain([0, d3.max(data, function(d) { return d.Freq; })]);
+
+						  // add axis
+						  svg.append("g")
+						      .attr("class", "x axis")
+						      .attr("transform", "translate(0," + height + ")")
+						      .call(xAxis)
+						    .selectAll("text")
+						      .style("text-anchor", "end")
+						      .attr("dx", "-.8em")
+						      .attr("dy", "-.55em")
+						      .attr("transform", "rotate(-90)" );
+
+						  svg.append("g")
+						      .attr("class", "y axis")
+						      .call(yAxis)
+						    .append("text")
+						      .attr("transform", "rotate(-90)")
+						      .attr("y", 5)
+						      .attr("dy", ".71em")
+						      .style("text-anchor", "end")
+						      .text("Duration");
+
+
+						  // Add bar chart
+
+
+						  svg.selectAll("bar")
+						      .data(data)
+						    .enter().append("rect")
+						      .attr("class", "bar")
+						      .attr("x", function(d) { return x(d.Letter); })
+						      .attr("width", x.rangeBand())
+						      .attr("y", function(d) { return y(d.Freq); })
+						      .attr("height", function(d) { return height - y(d.Freq); });
+							
 	
 }
 
@@ -216,7 +295,7 @@ function getFeatureForTrack(feature, track) {
 
 $(document).ready(function(){ 
 //	featuresJsonLd = getFeatureForTrack("http://vamp-plugins.org/rdf/plugins/vamp-libxtract#spectral_centroid", "http://eeboo.oerc.ox.ac.uk/calma_data/02/track_02017ae6-6037-4cc3-9cd1-7760f6f713b5/");
-	featuresJsonLd = getFeatureForTrack("http://vamp-plugins.org/rdf/plugins/qm-vamp-plugins#qm-keydetector", "http://eeboo.oerc.ox.ac.uk/calma_data/02/track_02017ae6-6037-4cc3-9cd1-7760f6f713b5/");
+//	featuresJsonLd = getFeatureForTrack("http://vamp-plugins.org/rdf/plugins/qm-vamp-plugins#qm-keydetector", "http://eeboo.oerc.ox.ac.uk/calma_data/02/track_02017ae6-6037-4cc3-9cd1-7760f6f713b5/");
 
 	//var onsetTime = parseFloat($p[26]["http://purl.org/NET/c4dm/event.owl#time"]["http://purl.org/NET/c4dm/timeline.owl#at"]["@value"].replace("PT", "").replace("S", ""))
 	
