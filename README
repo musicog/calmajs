@@ -1,0 +1,4 @@
+Example JavaScript visualization of CALMA feature data (currently, key detector). 
+NB: Currently requires additional server-side component to untar/bz2 the CALMA feature blob.
+In future, we could do this in-memory on the client.
+To change the track, simply update the getFeatureForTrack call in calma.js. Any CALMA ID should work.
